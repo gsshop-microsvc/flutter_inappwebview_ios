@@ -610,6 +610,11 @@ public class InAppBrowserWebViewController: UIViewController, InAppBrowserDelega
                 menuButton?.tintColor = nil
             }
         }
+
+        
+        if #available(iOS 26.0, *) {
+            navigationController?.interactiveContentPopGestureRecognizer?.isEnabled = false
+        }
         
         browserSettings = newSettings
         webViewSettings = newInAppWebViewSettings
