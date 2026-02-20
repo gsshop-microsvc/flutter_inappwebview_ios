@@ -222,6 +222,16 @@ public class InAppBrowserWebViewController: UIViewController, InAppBrowserDelega
         super.viewWillDisappear(animated)
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // iOS 26에서 스와이프 백 시 이전 페이지가 함께 보이는 현상 방지:
+        // 기존 가장자리 팝 제스처와 iOS 26 전체 화면 팝 제스처 둘 다 비활성화
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        if #available(iOS 26.0, *) {
+            navigationController?.interactiveContentPopGestureRecognizer?.isEnabled = false
+        }
+    }
+    
     public func prepareNavigationControllerBeforeViewWillAppear() {
         if let browserOptions = browserSettings {
             navigationController?.modalPresentationStyle = UIModalPresentationStyle(rawValue: browserOptions.presentationStyle)!
@@ -612,6 +622,8 @@ public class InAppBrowserWebViewController: UIViewController, InAppBrowserDelega
         }
 
         
+        // iOS 26 스와이프 백 시 이전 페이지 노출 방지: 두 제스처 모두 비활성화
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         if #available(iOS 26.0, *) {
             navigationController?.interactiveContentPopGestureRecognizer?.isEnabled = false
         }
