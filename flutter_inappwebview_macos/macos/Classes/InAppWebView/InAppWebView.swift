@@ -147,6 +147,10 @@ public class InAppWebView: WKWebView, WKUIDelegate,
             if settings.clearCache {
                 clearCache()
             }
+
+            if #available(macOS 26.0, *) {
+                navigationController?.interactiveContentPopGestureRecognizer?.isEnabled = false
+            }
         }
         
         prepareAndAddUserScripts()
